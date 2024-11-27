@@ -1,0 +1,32 @@
+# Nome do programa
+PROGRAM = banchmark.exe
+# Compilador
+CC = gcc
+# Flags de compilação
+CFLAGS = -O3
+# Nome do arquivo-fonte
+SRC = banchmark.c
+# Número de execuções para cada configuração
+RUNS = 5
+# Nome do arquivo de saída
+OUTPUT_FILE = banchmark.txt
+
+# Alvo padrão: compilar e executar
+all: $(PROGRAM) run
+
+# Alvo para compilar o programa
+$(PROGRAM): $(SRC)
+	$(CC) $(CFLAGS) $(SRC) -o $(PROGRAM)
+
+# Alvo para executar o programa com diferentes números de threads e múltiplas execuções
+run: $(PROGRAM)
+	@echo "Executando com diferentes números de threads (50 execuções cada):"
+	@for i in $(shell seq 1 $(RUNS)); do \
+		echo "Execução $$i sequencial:"; \
+		./$(PROGRAM) $$t >> $(OUTPUT_FILE); \
+	done; \
+	@echo ""; \
+
+# Alvo para limpar arquivos compilados
+clean:
+	rm -f $(PROGRAM) $(OUTPUT_FILE)
