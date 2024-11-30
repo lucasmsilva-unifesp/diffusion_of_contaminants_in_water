@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>
+#include <omp.h>
 
 #define N 7000 // Tamanho da grade
 #define T 500 // Número de iterações no tempo
@@ -10,8 +10,10 @@
 #define DELTA_T 0.01
 #define DELTA_X 1.0
 
-void diff_eq(double **C, double **C_new) { //diff_eq(double C[N][N], double C_new[N][N]) {
+void diff_eq(double **C, double **C_new, int n_threads) { //diff_eq(double C[N][N], double C_new[N][N]) {
+    omp_set_num_threads(n_threads);
     for (int t = 0; t < T; t++) {
+        #pragma omp for collapse(2) schedule(static)
         for (int i = 1; i < N - 1; i++) {
             for (int j = 1; j < N - 1; j++) {
                 C_new[i][j] = C[i][j] + D * DELTA_T * (
@@ -20,8 +22,8 @@ void diff_eq(double **C, double **C_new) { //diff_eq(double C[N][N], double C_ne
             }
         }
 
-        // Atualizar matriz para a próxima iteração
         double difmedio = 0.;
+        #pragma omp parallel for collapse(2) reduction(+:difmedio) schedule(static)            
         for (int i = 1; i < N - 1; i++) {
             for (int j = 1; j < N - 1; j++) {
                 difmedio += fabs(C_new[i][j] - C[i][j]);
@@ -29,13 +31,22 @@ void diff_eq(double **C, double **C_new) { //diff_eq(double C[N][N], double C_ne
             }
         }
 
-//        if ((t%100) == 0)
-//            printf("interacao %d - diferenca=%g\n", t, difmedio/((N-2)*(N-2)));
+//        if (t%100 == 0) {
+//            printf("oi\n");
+//        }
     }
 }
 
-int main() {
-    struct timespec start_time, end_time;
+int main(int argc, char **argv) {
+    double start, end;
+    int n_threads; 
+
+    if (argc != 2) {
+        fprintf(stderr, "use: ./main.exe <n_threads>");
+        return 1;
+    }
+    
+    n_threads = atoi(argv[1]);
 
     // Concentração inicial
     double **C = (double **)malloc(N * sizeof(double *));
@@ -87,20 +98,17 @@ int main() {
     // Inicializar uma concentração alta no centro
     C[N/2][N/2] = 1.0;
 
-    // Inicia o cronômetro
-    clock_gettime(CLOCK_MONOTONIC, &start_time);
+    // começa a contagem do tempo
+    start = omp_get_wtime();
 
     // Executar as iterações no tempo para a equação de difusão
-    diff_eq(C, C_new);
+    diff_eq(C, C_new, n_threads);
+    
+    // Fim da contagem
+    end = omp_get_wtime();
 
-    // Para o cronômetro
-    clock_gettime(CLOCK_MONOTONIC, &end_time);
-
-    // Calcula o tempo em segundos
-    double elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
-                          (end_time.tv_nsec - start_time.tv_nsec) / 1e9;
-
-    printf("1;%f\n", elapsed_time);
+    printf("%d;%f\n", n_threads, end-start);
 
     return 0;
 }
+

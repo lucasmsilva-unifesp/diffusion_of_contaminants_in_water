@@ -7,7 +7,7 @@ CFLAGS = -O3
 # Nome do arquivo-fonte
 SRC = banchmark.c
 # Número de execuções para cada configuração
-RUNS = 5
+RUNS = 1
 # Nome do arquivo de saída
 OUTPUT_FILE = banchmark.txt
 
@@ -16,11 +16,11 @@ all: $(PROGRAM) run
 
 # Alvo para compilar o programa
 $(PROGRAM): $(SRC)
-	$(CC) $(CFLAGS) $(SRC) -o $(PROGRAM)
+	$(CC) $(SRC) $(CFLAGS) -o $(PROGRAM)
 
 # Alvo para executar o programa com diferentes números de threads e múltiplas execuções
 run: $(PROGRAM)
-	@echo "Executando com diferentes números de threads (50 execuções cada):"
+	@echo "Executando com diferentes números de threads (5 execuções cada):"
 	@for i in $(shell seq 1 $(RUNS)); do \
 		echo "Execução $$i sequencial:"; \
 		./$(PROGRAM) $$t >> $(OUTPUT_FILE); \
