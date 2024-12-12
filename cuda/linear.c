@@ -10,8 +10,9 @@
 #define DELTA_X 1.0
 
 #define THREADS_PER_BLOCK 512
+#define SIZE N*N*sizeof(double)
 
-__global__ void diff_eq(double *C, double *C_new, int n) {
+__global__ void diff_eq_kernel(double *C, double *C_new, int n) {
     int index = threadIdx.x + blockIdx.x * blockDim.x;
 
     if (index >= n && index < n * (n - 1) && index % n != 0 && index % n != n - 1) {
@@ -21,57 +22,31 @@ __global__ void diff_eq(double *C, double *C_new, int n) {
     }
 }
 
-int main(int argc, char **argv)
-{
-    int n_threads_per_block = THREADS_PER_BLOCK; 
-
-    if (argc == 2) {
-        n_threads_per_block = atoi(argv1[1]);
-    }
-
-    long size = N * N * sizeof(double);
+double diff_eq(double *C, double *C_new) {
     double *d_C, *d_C_new;
-    double d_difmedio;
+    double *swap;
 
-    cudaMalloc( (void **) &d_C, size);
-    cudaMalloc( (void **) &d_C_new, size);
-    // cudaMalloc( (void **) &d_difmedio, sizeof(double));
+    cudaMalloc( (void **) &d_C, SIZE);
+    cudaMalloc( (void **) &d_C_new, SIZE);
 
-    double *C = (double *)malloc(size);
-    double *C_new = (double *)malloc(size);
-    // double *difmedio = (double *)malloc(sizeof(double));
+    cudaMemcpy(d_C, C, SIZE, cudaMemcpyHostToDevice );
+    cudaMemcpy(d_C_new, C_new, SIZE, cudaMemcpyHostToDevice );
+
     double difmedio;
 
-    if (!C || !C_new) {
-        fprintf(stderr, "Memory allocation failed\n");
-        return 0;
-    }
-
-    memset(C, 0, size);
-    memset(C_new, 0, size);
-    // *difmedio = 0;
-
-    C[(N/2) * N + (N/2)] = 1.0;
-
-    cudaMemcpy(d_C, C, size, cudaMemcpyHostToDevice );
-    cudaMemcpy(d_C_new, C_new, size, cudaMemcpyHostToDevice );
-    // cudaMemcpy(d_difmedio, difmedio, sizeof(double), cudaMemcpyHostToDevice);
-
-    double *temp;
-
     for (int t = 0; t < T; t++) {
-        diff_eq<<< (N * N + (n_threads_per_block-1)) / n_threads_per_block, n_threads_per_block >>>(d_C, d_C_new, N);
+        diff_eq_kernel<<< (N * N + (THREADS_PER_BLOCK-1)) / THREADS_PER_BLOCK, THREADS_PER_BLOCK >>>(d_C, d_C_new, N);
 
         cudaDeviceSynchronize();
 
-        temp = d_C;
+        swap = d_C;
         d_C = d_C_new;
-        d_C_new = temp;
+        d_C_new = swap;
 
         if (t%100==0) {
             difmedio = .0;
-            cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
-            cudaMemcpy(C_new, d_C_new, size, cudaMemcpyDeviceToHost);
+            cudaMemcpy(C, d_C, SIZE, cudaMemcpyDeviceToHost);
+            cudaMemcpy(C_new, d_C_new, SIZE, cudaMemcpyDeviceToHost);
 
             for(int i=0; i<N*N; i++)
                 difmedio += fabs(C[i] - C_new[i]);
@@ -80,13 +55,35 @@ int main(int argc, char **argv)
         }
     }
 
-    cudaMemcpy(C, d_C, size, cudaMemcpyDeviceToHost);
+    cudaMemcpy(C, d_C, SIZE, cudaMemcpyDeviceToHost);
 
-    printf("Concentração final no centro: %f\n", C[(N/2) * N + (N/2)]);
-
-    free(C);
     cudaFree(d_C);
     cudaFree(d_C_new);
+
+    return C[(N/2) * N + (N/2)];
+}
+
+int main(int argc, char **argv)
+{
+    double *C = (double *)malloc(SIZE);
+    double *C_new = (double *)malloc(SIZE);
+
+    if (!C || !C_new) {
+        fprintf(stderr, "Memory allocation failed\n");
+        return 0;
+    }
+
+    memset(C, 0, SIZE);
+    memset(C_new, 0, SIZE);
+
+    C[(N/2) * N + (N/2)] = 1.0;
+
+    double central = diff_eq(C, C_new);
+
+    printf("Concentração final no centro: %f\n", central);
+
+    free(C);
+    free(C_new);
 
     return 0;
 }
