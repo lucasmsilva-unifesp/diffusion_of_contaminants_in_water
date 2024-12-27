@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <omp.h>
+#include <time.h>
 
 #define N 7000 // Tamanho da grade
 #define T 500 // Número de iterações no tempo
@@ -12,7 +12,6 @@
 
 void diff_eq(double **C, double **C_new) { //diff_eq(double C[N][N], double C_new[N][N]) {
     for (int t = 0; t < T; t++) {
-        #pragma omp parallel for collapse(2) schedule(static)
         for (int i = 1; i < N - 1; i++) {
             for (int j = 1; j < N - 1; j++) {
                 C_new[i][j] = C[i][j] + D * DELTA_T * (
@@ -21,32 +20,23 @@ void diff_eq(double **C, double **C_new) { //diff_eq(double C[N][N], double C_ne
             }
         }
 
+        // Atualizar matriz para a próxima iteração
         double difmedio = 0.;
-        #pragma omp parallel for collapse(2) reduction(+:difmedio) schedule(static)            
         for (int i = 1; i < N - 1; i++) {
             for (int j = 1; j < N - 1; j++) {
                 difmedio += fabs(C_new[i][j] - C[i][j]);
                 C[i][j] = C_new[i][j];
             }
         }
-        
+
         if ((t%100) == 0)
             printf("interacao %d - diferenca=%g\n", t, difmedio/((N-2)*(N-2)));
     }
 }
 
-int main(int argc, char **argv) {
-    int n_threads; 
+int main() {
+    struct timespec start_time, end_time;
 
-    if (argc != 2) {
-        fprintf(stderr, "use: ./main.exe <n_threads>");
-        return 1;
-    }
-    
-    n_threads = atoi(argv[1]);
-
-    omp_set_num_threads(n_threads);
-    
     // Concentração inicial
     double **C = (double **)malloc(N * sizeof(double *));
     if (C == NULL) {
@@ -97,12 +87,20 @@ int main(int argc, char **argv) {
     // Inicializar uma concentração alta no centro
     C[N/2][N/2] = 1.0;
 
+    // Inicia o cronômetro
+    clock_gettime(CLOCK_MONOTONIC, &start_time);
+
     // Executar as iterações no tempo para a equação de difusão
     diff_eq(C, C_new);
 
-    // Exibir resultado para verificação
-    printf("Concentração final no centro: %f\n", C[N/2][N/2]);
+    // Para o cronômetro
+    clock_gettime(CLOCK_MONOTONIC, &end_time);
+
+    // Calcula o tempo em segundos
+    double elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
+                          (end_time.tv_nsec - start_time.tv_nsec) / 1e9;
+
+    printf("1;%f\n", elapsed_time);
 
     return 0;
 }
-

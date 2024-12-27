@@ -1,15 +1,15 @@
 # Nome do programa
-PROGRAM = banchmark.exe
+PROGRAM = benchmark.exe
 # Compilador
 CC = gcc
 # Flags de compilação
 CFLAGS = -O3
 # Nome do arquivo-fonte
-SRC = banchmark.c
+SRC = benchmark.c
 # Número de execuções para cada configuração
-RUNS = 1
+RUNS = 5
 # Nome do arquivo de saída
-OUTPUT_FILE = banchmark.txt
+OUTPUT_FILE = benchmark.txt
 
 # Alvo padrão: compilar e executar
 all: $(PROGRAM) run

@@ -1,20 +1,20 @@
 # Nome do programa
-PROGRAM = banchmark.exe
-PROGRAM2 = banch.exe
+PROGRAM = benchmark.exe
+PROGRAM2 = bench.exe
 # Compilador
 CC = gcc
 # Flags de compilação
 CFLAGS = -fopenmp -O3
 # Nome do arquivo-fonte
-SRC = banchmark.c
-SRC2 = banch.c
+SRC = benchmark.c
+SRC2 = bench.c
 # Número de threads a serem testados
 THREADS = 2 4 8 16
 # Número de execuções para cada configuração
-RUNS = 1
+RUNS = 5
 # Nome do arquivo de saída
-OUTPUT_FILE = banchmark.txt
-OUTPUT_FILE2 = banch.txt
+OUTPUT_FILE = benchmark.txt
+OUTPUT_FILE2 = bench.txt
 
 # Alvo padrão: compilar e executar
 all: $(PROGRAM) $(PROGRAM2) run

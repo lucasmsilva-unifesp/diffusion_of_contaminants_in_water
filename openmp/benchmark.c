@@ -10,7 +10,8 @@
 #define DELTA_T 0.01
 #define DELTA_X 1.0
 
-void diff_eq(double **C, double **C_new) { //diff_eq(double C[N][N], double C_new[N][N]) {
+void diff_eq(double **C, double **C_new, int n_threads) { //diff_eq(double C[N][N], double C_new[N][N]) {
+    omp_set_num_threads(n_threads);
     for (int t = 0; t < T; t++) {
         #pragma omp parallel for collapse(2) schedule(static)
         for (int i = 1; i < N - 1; i++) {
@@ -29,13 +30,14 @@ void diff_eq(double **C, double **C_new) { //diff_eq(double C[N][N], double C_ne
                 C[i][j] = C_new[i][j];
             }
         }
-        
-        if ((t%100) == 0)
-            printf("interacao %d - diferenca=%g\n", t, difmedio/((N-2)*(N-2)));
+
+    if ((t%100) == 0)
+        printf("interacao %d - diferenca=%g\n", t, difmedio/((N-2)*(N-2)));
     }
 }
 
 int main(int argc, char **argv) {
+    double start, end;
     int n_threads; 
 
     if (argc != 2) {
@@ -45,8 +47,6 @@ int main(int argc, char **argv) {
     
     n_threads = atoi(argv[1]);
 
-    omp_set_num_threads(n_threads);
-    
     // Concentração inicial
     double **C = (double **)malloc(N * sizeof(double *));
     if (C == NULL) {
@@ -97,11 +97,23 @@ int main(int argc, char **argv) {
     // Inicializar uma concentração alta no centro
     C[N/2][N/2] = 1.0;
 
+    // começa a contagem do tempo
+    start = omp_get_wtime();
+
     // Executar as iterações no tempo para a equação de difusão
-    diff_eq(C, C_new);
+    diff_eq(C, C_new, n_threads);
+    
+    // Fim da contagem
+    end = omp_get_wtime();
+
+    printf("%d;%f\n", n_threads, end-start);
 
     // Exibir resultado para verificação
     printf("Concentração final no centro: %f\n", C[N/2][N/2]);
+
+   // Liberação de memória 
+    free(C);
+    free(C_new);
 
     return 0;
 }
