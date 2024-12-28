@@ -1,0 +1,4 @@
+A profa falou que primeiro devemos implementar sem a memória compartilhada e depois com a memória compartilhada.
+
+Link para o colab: https://colab.research.google.com/drive/1WPSDJ_FU8w1izldk2xRO15EyGKbArw1J?usp=sharing&authuser=0#scrollTo=Lxmpgrp92GfW
+
