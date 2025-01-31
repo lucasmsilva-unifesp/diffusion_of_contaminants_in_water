@@ -3,7 +3,7 @@
 #include <math.h>
 #include <time.h>
 
-#define N 7000 // Tamanho da grade
+#define N 2000 // Tamanho da grade
 #define T 500 // Número de iterações no tempo
 #define D 0.1 // Coeficiente de difusão
 
