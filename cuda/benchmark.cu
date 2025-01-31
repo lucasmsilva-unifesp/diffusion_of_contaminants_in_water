@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <cuda_runtime.h>
-#include <sys/time.h>
+#include <time.h>
 
 
 #define N 2000 // Tamanho da grade
@@ -51,6 +51,8 @@ int main() {
     double *d_C, *d_C_new;
     size_t size = MEM_SIZE_MATRIX;
 
+    struct timespec start_time, end_time;
+
     // Alocar memória no host
     C = (double*)malloc(size);
     C_new = (double*)malloc(size);
@@ -81,7 +83,7 @@ int main() {
     double difmedio;
 
     // Calculando os tempo de exercução
-    double iStart = omp_get_wtime();
+    clock_gettime(CLOCK_MONOTONIC, &start_time);
 
     // Executar kernel
     for (int t = 0; t < T; t++) {
@@ -108,11 +110,15 @@ int main() {
         }
     }
 
-    double iElaps = omp_get_wtime() - iStart;
+    clock_gettime(CLOCK_MONOTONIC, &end_time);
+
+    double elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
+                          (end_time.tv_nsec - start_time.tv_nsec) / 1e9;
 
     // Métricas
-    printf("\n<<<%d,%d>>>;");
-    printf("%lf\n", iElaps);
+    printf("\nX<<<%d,%d>>>", grid.x, block.x);
+    printf("\nY<<<%d,%d>>>", grid.y, block.y);
+    printf("\n%lf\n", elapsed_time);
 
     // Copiar resultado de volta para o host
     check_cuda_error(
