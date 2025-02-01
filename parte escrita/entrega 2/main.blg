@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+Reallocating 'name_of_file' (item size: 1) to 4 items.
+The style file: sbc.bst
+Reallocating 'name_of_file' (item size: 1) to 13 items.
+Database file #1: sbc-template.bib
+Warning--entry type for "mckennon:2013" isn't style-file defined
+--line 92 of file sbc-template.bib
+Warning--empty school in phdthesis:2018
+You've used 7 entries,
+            1935 wiz_defined-function locations,
+            505 strings with 4517 characters,
+and the built_in function-call counts, 2270 in all, are:
+= -- 213
+> -- 98
+< -- 5
++ -- 32
+- -- 32
+* -- 178
+:= -- 425
+add.period$ -- 20
+call.type$ -- 7
+change.case$ -- 47
+chr.to.int$ -- 7
+cite$ -- 8
+duplicate$ -- 90
+empty$ -- 149
+format.name$ -- 43
+if$ -- 423
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 6
+newline$ -- 37
+num.names$ -- 21
+pop$ -- 49
+preamble$ -- 1
+purify$ -- 51
+quote$ -- 0
+skip$ -- 71
+stack$ -- 0
+substring$ -- 109
+swap$ -- 7
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 38
+warning$ -- 1
+while$ -- 16
+width$ -- 0
+write$ -- 85
+(There were 2 warnings)

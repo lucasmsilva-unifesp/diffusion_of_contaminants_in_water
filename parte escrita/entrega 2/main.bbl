@@ -1,0 +1,40 @@
+\begin{thebibliography}{}
+
+\bibitem[Cheng et~al. 2014]{cheng:2014}
+Cheng, J., Grossman, M., and McKercher, T. (2014).
+\newblock {\em Professional CUDA C Programming}.
+\newblock John Wiley and Sons, Inc.
+
+\bibitem[McKennon 2013]{mckennon:2013}
+McKennon, J. (2013).
+\newblock Cuda parallel thread management.
+
+\bibitem[{NVIDIA Corporation} 2012]{cuda:2012}
+{NVIDIA Corporation} (2012).
+\newblock {\em CUDA C PROGRAMMING GUIDE}.
+
+\bibitem[{NVIDIA Corporation} 2018]{nvidia:2018}
+{NVIDIA Corporation} (2018).
+\newblock {\em NVIDIA TURING GPU ARCHITECTURE}.
+\newblock NVIDIA.
+
+\bibitem[Owens et~al. 2008]{owens:2008}
+Owens, J.~D., Houston, M., Luebke, D., Green, S., Stone, J.~E., and Phillips,
+  J.~C. (2008).
+\newblock Gpu computing.
+\newblock {\em Proceedings of the IEEE}, 96(5):879--899.
+\newblock Retrieved from \url{http://dx.doi.org/10.1109/JPROC.2008.917757}.
+
+\bibitem[{Raúl de la Cruz} and Araya-Polo 2015]{cruz:2015}
+{Raúl de la Cruz} and Araya-Polo, M. (2015).
+\newblock Modeling stencil computations on modern hpc architectures.
+\newblock {\em Performance Modeling, Benchmarking and Simulation of High
+  Performance Computer Systems (PMBS14)}.
+
+\bibitem[Stein and Griebler 2018]{phdthesis:2018}
+Stein, C. and Griebler, D. (2018).
+\newblock {\em Programação Paralela para GPU em Aplicações de Processamento
+  de Stream}.
+\newblock PhD thesis.
+
+\end{thebibliography}
