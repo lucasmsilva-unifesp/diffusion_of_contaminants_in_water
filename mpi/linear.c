@@ -29,11 +29,11 @@ void diff_eq_mpi(double *C_local, double *C_local_new, int local_row, int myid, 
     for (int t = 0; t < T; t++) {
         if (myid > 0) {
             MPI_Isend(&C_local[N], N, MPI_DOUBLE, myid - 1, 0, comm, &requests[0]);
-            MPI_Irecv(&C_local[0], N, MPI_DOUBLE, myid + 1, 1, comm, &requests[1]);
+            MPI_Irecv(&C_local[0], N, MPI_DOUBLE, myid - 1, 1, comm, &requests[1]);
         }
         if (myid < numprocess - 1) {
             MPI_Isend(&C_local[(local_row - 2) * N], N, MPI_DOUBLE, myid + 1, 1, comm, &requests[2]);
-            MPI_Irecv(&C_local[(local_row - 1) * N], N, MPI_DOUBLE, myid - 1, 0, comm, &requests[3]);
+            MPI_Irecv(&C_local[(local_row - 1) * N], N, MPI_DOUBLE, myid + 1, 0, comm, &requests[3]);
         }
 
         if (myid > 0)
