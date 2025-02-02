@@ -1,0 +1,101 @@
+N = 5000
+Running benchmarch_linear with 1 processes...
+benchmarch_linear;1;35.803104
+benchmarch_linear;1;34.308862
+benchmarch_linear;1;34.081716
+Running benchmarch_linear with 2 processes...
+benchmarch_linear;2;27.718934
+benchmarch_linear;2;27.615101
+benchmarch_linear;2;28.123000
+Running benchmarch_linear with 3 processes...
+benchmarch_linear;3;27.601087
+benchmarch_linear;3;27.638081
+benchmarch_linear;3;27.340482
+Running benchmarch_linear with 4 processes...
+benchmarch_linear;4;27.774104
+benchmarch_linear;4;27.989086
+benchmarch_linear;4;27.437882
+Running benchmarch_linear with 5 processes...
+benchmarch_linear;5;28.010622
+benchmarch_linear;5;27.791716
+benchmarch_linear;5;28.854556
+Running benchmarch_linear with 6 processes...
+benchmarch_linear;6;28.269239
+benchmarch_linear;6;28.190607
+benchmarch_linear;6;28.292835
+Running benchmarch_linear with 7 processes...
+benchmarch_linear;7;28.862079
+benchmarch_linear;7;28.825642
+benchmarch_linear;7;29.201986
+Running benchmarch_linear with 8 processes...
+benchmarch_linear;8;29.010897
+benchmarch_linear;8;29.174314
+benchmarch_linear;8;28.979797
+
+N = 2000
+Running benchmarch_linear with 1 processes...
+benchmarch_linear;1;5.976276
+benchmarch_linear;1;5.629176
+benchmarch_linear;1;6.000136
+Running benchmarch_linear with 2 processes...
+benchmarch_linear;2;4.554982
+benchmarch_linear;2;4.557145
+benchmarch_linear;2;4.546292
+Running benchmarch_linear with 3 processes...
+benchmarch_linear;3;4.397612
+benchmarch_linear;3;4.393618
+benchmarch_linear;3;4.392890
+Running benchmarch_linear with 4 processes...
+benchmarch_linear;4;4.465527
+benchmarch_linear;4;4.459633
+benchmarch_linear;4;4.438046
+Running benchmarch_linear with 5 processes...
+benchmarch_linear;5;4.486035
+benchmarch_linear;5;4.553137
+benchmarch_linear;5;4.564508
+Running benchmarch_linear with 6 processes...
+benchmarch_linear;6;4.564748
+benchmarch_linear;6;4.562223
+benchmarch_linear;6;4.579042
+Running benchmarch_linear with 7 processes...
+benchmarch_linear;7;4.616269
+benchmarch_linear;7;4.613353
+benchmarch_linear;7;4.620199
+Running benchmarch_linear with 8 processes...
+benchmarch_linear;8;4.682653
+benchmarch_linear;8;4.688549
+benchmarch_linear;8;4.673188
+
+N = 7000
+Running benchmarch_linear with 1 processes...
+benchmarch_linear;1;70.268749
+benchmarch_linear;1;68.247509
+benchmarch_linear;1;67.977010
+Running benchmarch_linear with 2 processes...
+benchmarch_linear;2;55.254922
+benchmarch_linear;2;55.882932
+benchmarch_linear;2;55.555151
+Running benchmarch_linear with 3 processes...
+benchmarch_linear;3;54.101941
+benchmarch_linear;3;54.577985
+benchmarch_linear;3;57.282130
+Running benchmarch_linear with 4 processes...
+benchmarch_linear;4;53.738821
+benchmarch_linear;4;54.037643
+benchmarch_linear;4;53.724480
+Running benchmarch_linear with 5 processes...
+benchmarch_linear;5;54.357283
+benchmarch_linear;5;56.607876
+benchmarch_linear;5;55.272360
+Running benchmarch_linear with 6 processes...
+benchmarch_linear;6;55.489766
+benchmarch_linear;6;55.212226
+benchmarch_linear;6;55.303103
+Running benchmarch_linear with 7 processes...
+benchmarch_linear;7;57.941990
+benchmarch_linear;7;57.720901
+benchmarch_linear;7;58.820560
+Running benchmarch_linear with 8 processes...
+benchmarch_linear;8;60.546646
+benchmarch_linear;8;57.412588
+benchmarch_linear;8;56.869195
