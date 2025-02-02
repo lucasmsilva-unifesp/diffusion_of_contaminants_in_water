@@ -5,7 +5,7 @@
 #include <mpi.h>
 #include <time.h>
 
-#define N 2000
+#define N 7000
 #define T 500
 #define D 0.1
 #define DELTA_T 0.01
@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
     double elapsed_time = (end_time.tv_sec - start_time.tv_sec) +
                           (end_time.tv_nsec - start_time.tv_nsec) / 1e9;
 
-    printf("mpi;%f\n", elapsed_time);
+    printf("tempo de execução: %f\n", elapsed_time);
 
     // Liberação de memória
     for (int i = 0; i < local_rows; i++) {
